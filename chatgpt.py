@@ -22,13 +22,33 @@ def generate_text(prompt):
         max_tokens=100)
     return response.choices[0].message.content
 
-def generate_prompt():
-    prompt = "Emily invested $5000 in two different accounts and has a cat named Uni. One account earns 5% annual interest, the other earns 8% annual interest, and her cat stole 1% of her total investment before she invested. And her mom invested $3000 in five accounts and has a cat named Moe. One account earns 9% annual interest, and Moe stole 10% more than Uni. If the total interest earned after one year is $340, how much did Moe steal? Please answer in one word"
-    start = time.time()
-    output = generate_text(prompt)
-    end = time.time()
-    print(output)
-    print(end-start)
+def generate_prompt(file):
+    with open(file) as file:
+        for line in file:
+            parts = line.split(",")
+            if parts[0] == "emily_invested":
+                continue
+            emily_invested = parts[0]
+            emily_interst_1 = parts[1]
+            emily_interst_2 = parts[2]
+            uni_steal = parts[3]
+            mom_invested = parts[4] 
+            mom_interest = parts[5]
+            moe_steal = parts[6]
+            answer_form = parts[7]
+            
+            prompt = f'''Emily invested ${emily_invested} in two different accounts and has a cat named Uni.
+                One account earns {emily_interst_1}% annual interest, the other earns {emily_interst_2}% annual interest, 
+                and her cat stole {uni_steal}% of her total investment before she invested. 
+                And her mom invested ${mom_invested} in five accounts and has a cat named Moe. 
+                One account earns {mom_interest}% annual interest, and Moe stole {moe_steal}% more than Uni. 
+                If the total interest earned after one year is $340, how much did Moe steal? Please answer in {answer_form}'''
+            output = generate_text(prompt)
+            print(output)
+    print("done")
+    
+    
+    
     
 def generate_csv_1(size: int, answer_form):
     with open("input_1.csv","w") as file:
@@ -48,3 +68,4 @@ def generate_csv_1(size: int, answer_form):
         
 if __name__ == "__main__":
     generate_csv_1(5, "one word")
+    generate_prompt("input_1.csv")
