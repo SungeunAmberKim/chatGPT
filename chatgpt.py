@@ -1,5 +1,5 @@
 import csv
-import time
+import re
 import random
 from openai import OpenAI
 
@@ -72,10 +72,28 @@ def generate_output_file(prompt, input_file, output_file):
                 # Write the modified row to the output file
                 writer.writerow(row)
                 index += 1
-      
+
+def data_cleaning(output_file, clean_file):
+    with open(output_file, 'r') as outfile:
+    # Open the output file for writing
+        with open(clean_file, 'w', newline='') as cleanfile:
+            # Create CSV reader and writer objects
+            reader = csv.reader(outfile)
+            writer = csv.writer(cleanfile)
+            
+            # Iterate over each row in the input file
+            for row in reader:
+                regex = regex = r"\d+"
+                match = re.search(regex, row[9])
+                if match:
+                    row[9] = match.group()
+                    writer.writerow(row)
+               
+               
         
 if __name__ == "__main__":
     # change size here
-    generate_input_file(1, "one integer", "input_1.csv")
+    generate_input_file(20, "one word", "input_1.csv")
     prompts = generate_prompts("input_1.csv","output_1.csv")
     generate_output_file(prompts, "input_1.csv", "output_1.csv")
+    data_cleaning("output_1.csv", "clean_1.csv")
