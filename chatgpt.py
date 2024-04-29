@@ -6,23 +6,19 @@ from openai import OpenAI
 # open AI api key
 client = OpenAI(api_key='sk-proj-rQ3SVHMcSBcSPHwRQITMT3BlbkFJjrBVYJ6ICR0TC1MFzun4')
 
-# function to generate respond
-def generate_text(prompt):
-    response = client.chat.completions.create(
-        model="gpt-3.5-turbo",
-        messages = [{"role": "user", "content": prompt}],
-        # temperature 0 to 2, deterministic to randomness
-        temperature=0.6,
-        # top_p 0 to 2, deterministic to randomness
-        top_p=1,
-        # high frequency_penalty >> decreased repeated words
-        frequency_penalty=0,
-        # high presence_penalty >> branch into new topics???
-        presence_penalty=0,
-        # max_tokens: maximum context length
-        max_tokens=100)
-    
-    return response.choices[0].message.content
+# generating input csv file    
+def generate_input_file(size: int, answer_form, filename):
+    with open(filename,"w") as file:
+        for i in range(size):
+            emily_invested = random.randrange(1000, 100000, 100)
+            emily_interst_1 = random.randrange(1, 10, 1)
+            emily_interst_2 = random.randrange(1, 10, 1)
+            uni_steal = random.randrange(0, 100, 5)
+            mom_invested = random.randrange(1000,10000, 10)
+            mom_interest = random.randrange(1, 10, 1)
+            moe_steal = random.randrange(0,100, 5)
+            correct_answer = ((emily_invested*uni_steal)/100)*(1+(moe_steal/100))
+            file.write(f"{emily_invested},{emily_interst_1},{emily_interst_2},{uni_steal},{mom_invested},{mom_interest},{moe_steal},{answer_form},{correct_answer}\n")
 
 # function to generate prompts from csv file
 def generate_prompts(infile,outfile):
@@ -41,20 +37,24 @@ def generate_prompts(infile,outfile):
             prompt_each = f'''Emily invested ${emily_invested} in two different accounts and has a cat named Uni. One account earns {emily_interst_1}% annual interest, the other earns {emily_interst_2}% annual interest, and her cat stole {uni_steal}% of her total investment before she invested. And her mom invested ${mom_invested} in five accounts and has a cat named Moe. One account earns {mom_interest}% annual interest, and Moe stole {moe_steal}% more than Uni. If the total interest earned after one year is $340, how much did Moe steal? Please answer in {answer_form}'''
             output.append(prompt_each)
     return output
+
+# function to generate respond
+def generate_text(prompt):
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages = [{"role": "user", "content": prompt}],
+        # temperature 0 to 2, deterministic to randomness
+        temperature=0.6,
+        # top_p 0 to 2, deterministic to randomness
+        top_p=1,
+        # high frequency_penalty >> decreased repeated words
+        frequency_penalty=0,
+        # high presence_penalty >> branch into new topics???
+        presence_penalty=0,
+        # max_tokens: maximum context length
+        max_tokens=100)
     
-# generating input csv file    
-def generate_input_file(size: int, answer_form, filename):
-    with open(filename,"w") as file:
-        for i in range(size):
-            emily_invested = random.randrange(1000, 100000, 100)
-            emily_interst_1 = random.randrange(1, 10, 1)
-            emily_interst_2 = random.randrange(1, 10, 1)
-            uni_steal = random.randrange(0, 100, 5)
-            mom_invested = random.randrange(1000,10000, 10)
-            mom_interest = random.randrange(1, 10, 1)
-            moe_steal = random.randrange(0,100, 5)
-            correct_answer = ((emily_invested*uni_steal)/100)*(1+(moe_steal/100))
-            file.write(f"{emily_invested},{emily_interst_1},{emily_interst_2},{uni_steal},{mom_invested},{mom_interest},{moe_steal},{answer_form},{correct_answer}\n")
+    return response.choices[0].message.content
         
 def generate_output_file(prompt, input_file, output_file):
     with open(input_file, 'r') as infile:
@@ -84,16 +84,18 @@ def data_cleaning(output_file, clean_file):
             # Iterate over each row in the input file
             for row in reader:
                 regex = regex = r"\d+"
-                match = re.search(regex, row[9])
+                match = re.search(regex, row[9].replace(",",""))
                 if match:
                     row[9] = match.group()
-                    writer.writerow(row)
-               
-               
+                    writer.writerow(row[8:10])
         
 if __name__ == "__main__":
     # change size here
-    generate_input_file(20, "one word", "input_1.csv")
-    prompts = generate_prompts("input_1.csv","output_1.csv")
-    generate_output_file(prompts, "input_1.csv", "output_1.csv")
-    data_cleaning("output_1.csv", "clean_1.csv")
+    input_csv = "input_1.csv"
+    ouput_csv = "output_1.csv"
+    clean_csv = "clean_1.csv"
+    # generate_input_file(5, "one word", input_csv)
+    # prompts = generate_prompts(input_csv,ouput_csv)
+    # generate_output_file(prompts, input_csv, ouput_csv)
+    data_cleaning(ouput_csv, clean_csv)
+    
