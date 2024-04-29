@@ -52,7 +52,7 @@ def generate_text(prompt):
         # high presence_penalty >> branch into new topics???
         presence_penalty=0,
         # max_tokens: maximum context length
-        max_tokens=100)
+        max_tokens=20)
     
     return response.choices[0].message.content
         
@@ -88,14 +88,39 @@ def data_cleaning(output_file, clean_file):
                 if match:
                     row[9] = match.group()
                     writer.writerow(row[8:10])
+
+def correctness(clean):
+    size = 0
+    correct = 0
+    incorrect = 0
+    with open(clean, 'r') as file:
+        reader = csv.reader(file)
+        for row in reader:
+            if abs(float(row[0]) - float(row[1])) < 1:
+                correct += 1
+            else:
+                incorrect += 1
+            size += 1
+    correctness = f"{correct}/{size}"
+    percentage = correct/size*100
+    print(f"correctness: {correctness}") 
+    print(f"percentage: {percentage}%")
+    return correctness, percentage
         
+
 if __name__ == "__main__":
-    # change size here
+    # temperature = 0.6; top_p = 1; frequency_penalty = 0; presence_penalty = 0
+    # one word
     input_csv = "input_1.csv"
     ouput_csv = "output_1.csv"
     clean_csv = "clean_1.csv"
-    # generate_input_file(5, "one word", input_csv)
-    # prompts = generate_prompts(input_csv,ouput_csv)
-    # generate_output_file(prompts, input_csv, ouput_csv)
+    generate_input_file(10, "one word", input_csv)
+    prompts = generate_prompts(input_csv,ouput_csv)
+    generate_output_file(prompts, input_csv, ouput_csv)
     data_cleaning(ouput_csv, clean_csv)
+    result_1 = correctness(clean_csv)
+    with open('result.csv', 'w') as file:
+        writer = csv.writer(file)
+        writer.writerow(result_1)
+        
     
