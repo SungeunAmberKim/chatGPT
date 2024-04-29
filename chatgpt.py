@@ -1,3 +1,4 @@
+import pandas as pd
 import time
 import random
 from openai import OpenAI
@@ -22,7 +23,9 @@ def generate_text(prompt):
         max_tokens=100)
     return response.choices[0].message.content
 
-def generate_prompt(file):
+# function to generate prompts from csv file
+def generate_prompts(file):
+    output = []
     with open(file) as file:
         for line in file:
             parts = line.split(",")
@@ -37,19 +40,16 @@ def generate_prompt(file):
             moe_steal = parts[6]
             answer_form = parts[7]
             
-            prompt = f'''Emily invested ${emily_invested} in two different accounts and has a cat named Uni.
+            prompt_each = f'''Emily invested ${emily_invested} in two different accounts and has a cat named Uni.
                 One account earns {emily_interst_1}% annual interest, the other earns {emily_interst_2}% annual interest, 
                 and her cat stole {uni_steal}% of her total investment before she invested. 
                 And her mom invested ${mom_invested} in five accounts and has a cat named Moe. 
                 One account earns {mom_interest}% annual interest, and Moe stole {moe_steal}% more than Uni. 
                 If the total interest earned after one year is $340, how much did Moe steal? Please answer in {answer_form}'''
-            output = generate_text(prompt)
-            print(output)
-    print("done")
-    
-    
-    
-    
+            output.append(prompt_each)
+    return output
+            
+# generating input csv file    
 def generate_csv_1(size: int, answer_form):
     with open("input_1.csv","w") as file:
         file.write("emily_invested,emily_interst_1,emily_interst_2,uni_steal,mom_invested,mom_interest,moe_steal,answer_form,correct answer,chatGPT\n")
@@ -68,4 +68,6 @@ def generate_csv_1(size: int, answer_form):
         
 if __name__ == "__main__":
     generate_csv_1(5, "one word")
-    generate_prompt("input_1.csv")
+    prompts = generate_prompts("input_1.csv")
+    for i in prompts:
+        print(generate_text(i))
