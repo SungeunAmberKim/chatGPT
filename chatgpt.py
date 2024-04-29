@@ -21,6 +21,7 @@ def generate_text(prompt):
         presence_penalty=0,
         # max_tokens: maximum context length
         max_tokens=100)
+    
     return response.choices[0].message.content
 
 # function to generate prompts from csv file
@@ -42,8 +43,8 @@ def generate_prompts(infile,outfile):
     return output
     
 # generating input csv file    
-def generate_input_file(size: int, answer_form):
-    with open("input_1.csv","w") as file:
+def generate_input_file(size: int, answer_form, filename):
+    with open(filename,"w") as file:
         for i in range(size):
             emily_invested = random.randrange(1000, 100000, 100)
             emily_interst_1 = random.randrange(1, 10, 1)
@@ -74,6 +75,7 @@ def generate_output_file(prompt, input_file, output_file):
       
         
 if __name__ == "__main__":
-    generate_input_file(5, "one integer")
+    # change size here
+    generate_input_file(1, "one integer", "input_1.csv")
     prompts = generate_prompts("input_1.csv","output_1.csv")
     generate_output_file(prompts, "input_1.csv", "output_1.csv")
