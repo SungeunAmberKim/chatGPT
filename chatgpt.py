@@ -122,18 +122,18 @@ def correctness(clean):
 
 if __name__ == "__main__":
     # temperature = 0.6; top_p = 1; frequency_penalty = 0; presence_penalty = 0
-    # USD
+    # one floating point value
     input_csv = "input_1.csv"
     ouput_csv = "output_1.csv"
     clean_csv = "clean_1.csv"
-    generate_input_file_1(1000, "USD", input_csv)
+    generate_input_file_1(1000, "one floating point value", input_csv)
     prompts = generate_prompts(input_csv,ouput_csv)
     generate_output_file(prompts, input_csv, ouput_csv)
     data_cleaning(ouput_csv, clean_csv)
     result_1 = correctness(clean_csv)
     with open('result.txt', 'a') as file:
         file.write("\n")
-        file.write("input_1.csv, output_1.csv, clean_1.csv; USD; 1000 iterations\n")
+        file.write("input_1.csv, output_1.csv, clean_1.csv; one floating point value; 1000 iterations\n")
         file.write("temperature = 0.6; top_p = 1; frequency_penalty = 0; presence_penalty = 0\n")
         file.write(f"{result_1[0]} : {result_1[1]}%\n")
         file.write("___________________________________________________________________________\n")
