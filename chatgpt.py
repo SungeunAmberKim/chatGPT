@@ -4,7 +4,7 @@ import random
 from openai import OpenAI
 
 # open AI api key
-client = OpenAI(api_key='')
+client = OpenAI(api_key='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')
 
 # generating input csv file    
 def generate_input_file(size: int, answer_form, filename):
@@ -122,17 +122,18 @@ def correctness(clean):
 
 if __name__ == "__main__":
     # temperature = 0.6; top_p = 1; frequency_penalty = 0; presence_penalty = 0
-    # float
+    # one float
     input_csv = "input_1.csv"
     ouput_csv = "output_1.csv"
     clean_csv = "clean_1.csv"
-    generate_input_file_1(1000, "one word", input_csv)
+    generate_input_file_1(1000, "one float", input_csv)
     prompts = generate_prompts(input_csv,ouput_csv)
     generate_output_file(prompts, input_csv, ouput_csv)
     data_cleaning(ouput_csv, clean_csv)
     result_1 = correctness(clean_csv)
     with open('result.txt', 'a') as file:
-        file.write("input_1.csv, output_1.csv, clean_1.csv; float; 1000 iterations\n")
+        file.write("\n")
+        file.write("input_1.csv, output_1.csv, clean_1.csv; one float; 1000 iterations\n")
         file.write("temperature = 0.6; top_p = 1; frequency_penalty = 0; presence_penalty = 0\n")
         file.write(f"{result_1[0]} : {result_1[1]}%\n")
         file.write("___________________________________________________________________________\n")
