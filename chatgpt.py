@@ -1,10 +1,12 @@
 import csv
 import re
 import random
+import key
 from openai import OpenAI
 
+
 # open AI api key
-client = OpenAI(api_key='')
+client = OpenAI(api_key=key.api_key)
 
 
 # generating input csv file    
@@ -72,7 +74,7 @@ def generate_text(prompt):
 def generate_output_file(prompt, input_file, output_file):
     with open(input_file, 'r') as infile:
     # Open the output file for writing
-        with open(output_file, 'w', newline='') as outfile:
+        with open(output_file, 'a', newline='') as outfile:
             # Create CSV reader and writer objects
             reader = csv.reader(infile)
             writer = csv.writer(outfile)
@@ -89,7 +91,7 @@ def generate_output_file(prompt, input_file, output_file):
 def data_cleaning(output_file, clean_file):
     with open(output_file, 'r') as outfile:
     # Open the output file for writing
-        with open(clean_file, 'w', newline='') as cleanfile:
+        with open(clean_file, 'a', newline='') as cleanfile:
             # Create CSV reader and writer objects
             reader = csv.reader(outfile)
             writer = csv.writer(cleanfile)
@@ -127,7 +129,7 @@ if __name__ == "__main__":
     input_csv = "input_1.csv"
     ouput_csv = "output_1.csv"
     clean_csv = "clean_1.csv"
-    generate_input_file(100, " one integer ", input_csv)
+    generate_input_file(5, " one integer ", input_csv)
     prompts = generate_prompts(input_csv,ouput_csv)
     generate_output_file(prompts, input_csv, ouput_csv)
     data_cleaning(ouput_csv, clean_csv)

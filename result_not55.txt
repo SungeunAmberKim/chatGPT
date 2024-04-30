@@ -28,3 +28,13 @@ input_1.csv, output_1.csv, clean_1.csv; one integer; 100 iterations
 temperature = 0.6; top_p = 1; frequency_penalty = 0; presence_penalty = 0
 5/100 : 5.0%
 ___________________________________________________________________________
+
+input_1.csv, output_1.csv, clean_1.csv; one integer; 100 iterations
+temperature = 0.6; top_p = 1; frequency_penalty = 0; presence_penalty = 0
+0/5 : 0.0%
+___________________________________________________________________________
+
+input_1.csv, output_1.csv, clean_1.csv; one integer; 100 iterations
+temperature = 0.6; top_p = 1; frequency_penalty = 0; presence_penalty = 0
+0/20 : 0.0%
+___________________________________________________________________________
