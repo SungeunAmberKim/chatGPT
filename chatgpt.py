@@ -4,7 +4,7 @@ import random
 from openai import OpenAI
 
 # open AI api key
-client = OpenAI(api_key='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')
+client = OpenAI(api_key='')
 
 # generating input csv file    
 def generate_input_file(size: int, answer_form, filename):
