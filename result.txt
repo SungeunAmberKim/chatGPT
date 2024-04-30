@@ -2,14 +2,17 @@ input_1.csv, output_1.csv, clean_1.csv; one word; 100 iterations
 temperature = 0.6; top_p = 1; frequency_penalty = 0; presence_penalty = 0
 1/100 : 1.0%
 ___________________________________________________________________________
+
 input_1.csv, output_1.csv, clean_1.csv; one word; 1000 iterations
 temperature = 0.6; top_p = 1; frequency_penalty = 0; presence_penalty = 0
 8/1000 : 0.8%
 ___________________________________________________________________________
+
 input_1.csv, output_1.csv, clean_1.csv; one word; 1000 iterations
 temperature = 0.6; top_p = 1; frequency_penalty = 0; presence_penalty = 0
 6/1000 : 0.6%
 ___________________________________________________________________________
+
 input_1.csv, output_1.csv, clean_1.csv; float; 1000 iterations
 temperature = 0.6; top_p = 1; frequency_penalty = 0; presence_penalty = 0
 0/966 : 0.0%
@@ -28,4 +31,9 @@ ___________________________________________________________________________
 input_1.csv, output_1.csv, clean_1.csv; one float; 1000 iterations
 temperature = 0.6; top_p = 1; frequency_penalty = 0; presence_penalty = 0
 168/1000 : 16.8%
+___________________________________________________________________________
+
+input_1.csv, output_1.csv, clean_1.csv; one float; 1000 iterations
+temperature = 0.6; top_p = 1; frequency_penalty = 0; presence_penalty = 0
+184/1000 : 18.4%
 ___________________________________________________________________________
