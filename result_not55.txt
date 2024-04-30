@@ -1,0 +1,30 @@
+
+input_1.csv, output_1.csv, clean_1.csv; one floating value; 100 iterations
+temperature = 0.6; top_p = 1; frequency_penalty = 0; presence_penalty = 0
+5/100 : 5.0%
+___________________________________________________________________________
+
+input_1.csv, output_1.csv, clean_1.csv; one floating value; 100 iterations
+temperature = 0.6; top_p = 1; frequency_penalty = 0; presence_penalty = 0
+7/100 : 7.000000000000001%
+___________________________________________________________________________
+
+input_1.csv, output_1.csv, clean_1.csv; one floating value; 100 iterations
+temperature = 0.6; top_p = 1; frequency_penalty = 0; presence_penalty = 0
+3/100 : 3.0%
+___________________________________________________________________________
+
+input_1.csv, output_1.csv, clean_1.csv; one integer; 100 iterations
+temperature = 0.6; top_p = 1; frequency_penalty = 0; presence_penalty = 0
+3/100 : 3.0%
+___________________________________________________________________________
+
+input_1.csv, output_1.csv, clean_1.csv; one integer; 100 iterations
+temperature = 0.6; top_p = 1; frequency_penalty = 0; presence_penalty = 0
+9/100 : 9.0%
+___________________________________________________________________________
+
+input_1.csv, output_1.csv, clean_1.csv; one integer; 100 iterations
+temperature = 0.6; top_p = 1; frequency_penalty = 0; presence_penalty = 0
+5/100 : 5.0%
+___________________________________________________________________________

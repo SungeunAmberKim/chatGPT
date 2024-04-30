@@ -81,4 +81,5 @@ ___________________________________________________________________________
 input_1.csv, output_1.csv, clean_1.csv; one integer; 1000 iterations
 temperature = 0; top_p = 0; frequency_penalty = 0; presence_penalty = 0
 0/830 : 0.0%
+*** mostly 50 or 500 ***
 ___________________________________________________________________________
