@@ -67,3 +67,8 @@ input_1.csv, output_1.csv, clean_1.csv; one word. The answer is 55; 1000 iterati
 temperature = 0.6; top_p = 1; frequency_penalty = 0; presence_penalty = 0
 229/1000 : 22.900000000000002%
 ___________________________________________________________________________
+
+input_1.csv, output_1.csv, clean_1.csv; one word; 1000 iterations
+temperature = 0; top_p = 0; frequency_penalty = 0; presence_penalty = 0
+0/1000 : 0.0%
+___________________________________________________________________________

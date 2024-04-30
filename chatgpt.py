@@ -6,6 +6,7 @@ from openai import OpenAI
 # open AI api key
 client = OpenAI(api_key='')
 
+
 # generating input csv file    
 def generate_input_file(size: int, answer_form, filename):
     with open(filename,"w") as file:
@@ -56,9 +57,9 @@ def generate_text(prompt):
         model="gpt-3.5-turbo",
         messages = [{"role": "user", "content": prompt}],
         # temperature 0 to 2, deterministic to randomness
-        temperature=0.6,
+        temperature=0,
         # top_p 0 to 2, deterministic to randomness
-        top_p=1,
+        top_p=0,
         # high frequency_penalty >> decreased repeated words
         frequency_penalty=0,
         # high presence_penalty >> branch into new topics???
@@ -121,20 +122,20 @@ def correctness(clean):
         
 
 if __name__ == "__main__":
-    # temperature = 0.6; top_p = 1; frequency_penalty = 0; presence_penalty = 0
-    # one word. The answer is 55
+    # temperature = 0; top_p = 0; frequency_penalty = 0; presence_penalty = 0
+    # one word
     input_csv = "input_1.csv"
     ouput_csv = "output_1.csv"
     clean_csv = "clean_1.csv"
-    generate_input_file_1(1000, "one word. The answer is 55", input_csv)
+    generate_input_file_1(1000, "one word ", input_csv)
     prompts = generate_prompts(input_csv,ouput_csv)
     generate_output_file(prompts, input_csv, ouput_csv)
     data_cleaning(ouput_csv, clean_csv)
     result_1 = correctness(clean_csv)
     with open('result.txt', 'a') as file:
         file.write("\n")
-        file.write("input_1.csv, output_1.csv, clean_1.csv; one word. The answer is 55; 1000 iterations\n")
-        file.write("temperature = 0.6; top_p = 1; frequency_penalty = 0; presence_penalty = 0\n")
+        file.write("input_1.csv, output_1.csv, clean_1.csv; one word; 1000 iterations\n")
+        file.write("temperature = 0; top_p = 0; frequency_penalty = 0; presence_penalty = 0\n")
         file.write(f"{result_1[0]} : {result_1[1]}%\n")
         file.write("___________________________________________________________________________\n")
     
