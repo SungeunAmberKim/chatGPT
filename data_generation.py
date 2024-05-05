@@ -52,6 +52,21 @@ def generate_prompts(infile):
             prompt_each = f'''Emily invested ${emily_invested} in two different accounts and has a cat named Uni. One account earns {emily_interst_1}% annual interest, the other earns {emily_interst_2}% annual interest, and her cat stole {uni_steal}% of her total investment before she invested. And her mom invested ${mom_invested} in five accounts and has a cat named Moe. One account earns {mom_interest}% annual interest, and Moe stole {moe_steal}% more than Uni. If the total interest earned after one year is $340, how much did Moe steal? Please answer in {answer_form}'''
             output.append(prompt_each)
     return output
+# without emily mom investing
+def generate_prompts_1(infile):
+    output = []
+    with open(infile) as file:
+        for line in file:
+            parts = line.split(",")
+            emily_invested = parts[0]
+            emily_interst_1 = parts[1]
+            emily_interst_2 = parts[2]
+            uni_steal = parts[3]
+            moe_steal = parts[6]
+            answer_form = parts[7]
+            prompt_each = f'''Emily invested ${emily_invested} in two different accounts and has a cat named Uni. One account earns {emily_interst_1}% annual interest, the other earns {emily_interst_2}% annual interest, and her cat stole {uni_steal}% of her total investment before she invested. And her mom has a cat named Moe stole {moe_steal}% more than Uni. If the total interest earned after one year is $340, how much did Moe steal? Please answer in {answer_form}'''
+            output.append(prompt_each)
+    return output
 
 # function to generate respond
 def generate_text(prompt, temp, top, freq, pre):
@@ -109,24 +124,6 @@ def data_cleaning(output_file, clean_file):
                     row[9] = match.group()
                     row[10] = abs(float(row[8])-float(row[9]))
                     writer.writerow(row[:])
-
-def correctness(clean):
-    size = 0
-    correct = 0
-    incorrect = 0
-    with open(clean, 'r') as file:
-        reader = csv.reader(file)
-        for row in reader:
-            if abs(float(row[8]) - float(row[9])) < 1:
-                correct += 1
-            else:
-                incorrect += 1
-            size += 1
-    correctness = f"{correct}/{size}"
-    percentage = correct/size*100
-    print(f"correctness: {correctness}") 
-    print(f"percentage: {percentage}%")
-    return correctness, percentage
         
 def test(input_csv, output_csv, clean_csv, iterations, mode, temperature, top_p, frequency_penalty, presence_penalty):
     # temperature = 0.6; top_p = 1; frequency_penalty = 0; presence_penalty = 0
@@ -135,20 +132,20 @@ def test(input_csv, output_csv, clean_csv, iterations, mode, temperature, top_p,
     prompts = generate_prompts(input_csv)
     generate_output_file(prompts, input_csv, output_csv, temperature, top_p, frequency_penalty, presence_penalty)
     data_cleaning(output_csv, clean_csv)
-    result_1 = correctness(clean_csv)
-    with open('result.txt', 'a') as file:
-        file.write("\n")
-        file.write(f"{input_csv}, {output_csv}, {clean_csv}; {mode}; {iterations} iterations\n")
-        file.write(f"temperature = {temperature}; top_p = {top_p}; frequency_penalty = {frequency_penalty}; presence_penalty = {presence_penalty}\n")
-        file.write(f"{result_1[0]} : {result_1[1]}%\n")
-        file.write("___________________________________________________________________________\n")
+    
+def test_1(input_csv, output_csv, clean_csv, iterations, mode, temperature, top_p, frequency_penalty, presence_penalty):
+    # temperature = 0.6; top_p = 1; frequency_penalty = 0; presence_penalty = 0
+    # one integer
+    generate_input_file_1(iterations, mode, input_csv)
+    prompts = generate_prompts_1(input_csv)
+    generate_output_file(prompts, input_csv, output_csv, temperature, top_p, frequency_penalty, presence_penalty)
+    data_cleaning(output_csv, clean_csv)
 
 if __name__ == "__main__":
     # input file; output file; data cleaned file; iterations; mode; temperature, top_p, frequency_penalty, presence_penalty
     
-    test("input.csv","output_1.csv","clean_1.csv",100,"one word", 0, 0, 0, 0)
-    test("input.csv","output_1.csv","clean_1.csv",100,"one integer", 0, 0, 0, 0)
-    test("input.csv","output_1.csv","clean_1.csv",100,"one float", 0, 0, 0, 0)
-    test("input.csv","output_1.csv","clean_1.csv",100,"one floaing point value", 0, 0, 0, 0)
+    #test("input.csv","output_2.csv","clean_2.csv",100,"one word", 0.6, 1, 0, 0)
+    data_cleaning("output_2.csv","clean_2.csv")
+    
     
     
