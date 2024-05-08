@@ -19,7 +19,9 @@ def generate_input_file(size: int, answer_form, filename):
             mom_interest = random.randrange(1, 10, 1)
             moe_steal = random.randrange(0,100, 5)
             correct_answer = ((emily_invested*uni_steal)/100)*(1+(moe_steal/100))
-            file.write(f"{emily_invested},{emily_interst_1},{emily_interst_2},{uni_steal},{mom_invested},{mom_interest},{moe_steal},{answer_form},{correct_answer}\n")
+            file.write(f"{emily_invested}, {emily_interst_1}, {emily_interst_2},
+                       {uni_steal}, {mom_invested},{mom_interest},
+                       {moe_steal}, {answer_form},{correct_answer}\n")
             
 # generating input csv file; correct_answer is always 55   
 def generate_input_file_1(size: int, answer_form, filename):
@@ -33,7 +35,9 @@ def generate_input_file_1(size: int, answer_form, filename):
             mom_interest = random.randrange(1, 10, 1)
             moe_steal = 10
             correct_answer = 55
-            file.write(f"{emily_invested},{emily_interst_1},{emily_interst_2},{uni_steal},{mom_invested},{mom_interest},{moe_steal},{answer_form},{correct_answer}\n")
+            file.write(f"{emily_invested}, {emily_interst_1}, {emily_interst_2},
+                       {uni_steal},{mom_invested},{mom_interest},
+                       {moe_steal},{answer_form},{correct_answer}\n")
             
 # function to generate prompts from csv file
 def generate_prompts(infile):
@@ -49,7 +53,12 @@ def generate_prompts(infile):
             mom_interest = parts[5]
             moe_steal = parts[6]
             answer_form = parts[7]
-            prompt_each = f'''Emily invested ${emily_invested} in two different accounts and has a cat named Uni. One account earns {emily_interst_1}% annual interest, the other earns {emily_interst_2}% annual interest, and her cat stole {uni_steal}% of her total investment before she invested. And her mom invested ${mom_invested} in five accounts and has a cat named Moe. One account earns {mom_interest}% annual interest, and Moe stole {moe_steal}% more than Uni. If the total interest earned after one year is $340, how much did Moe steal? Please answer in {answer_form}'''
+            prompt_each = f'''Emily invested ${emily_invested} in two different accounts and has a cat named Uni. 
+                One account earns {emily_interst_1}% annual interest, the other earns {emily_interst_2}% annual interest, 
+                and her cat stole {uni_steal}% of her total investment before she invested. 
+                And her mom invested ${mom_invested} in five accounts and has a cat named Moe. 
+                One account earns {mom_interest}% annual interest, and Moe stole {moe_steal}% more than Uni. 
+                If the total interest earned after one year is $340, how much did Moe steal? Please answer in {answer_form}'''
             output.append(prompt_each)
     return output
 # without emily mom investing
@@ -75,11 +84,11 @@ def generate_text(prompt, temp, top, freq, pre):
         messages = [{"role": "user", "content": prompt}],
         # temperature 0 to 2, deterministic to randomness
         temperature=temp,
-        # top_p 0 to 2, deterministic to randomness
+        # top_p 0 to 2, deterministic to randomness in word choices
         top_p=top,
         # high frequency_penalty >> decreased repeated words
         frequency_penalty=freq,
-        # high presence_penalty >> branch into new topics???
+        # high presence_penalty >> branch into new topics
         presence_penalty=pre,
         # max_tokens: maximum context length
         max_tokens=20)
@@ -118,10 +127,12 @@ def data_cleaning(output_file, clean_file):
             
             # Iterate over each row in the input file
             for row in reader:
+                # this is to get the only number value from ChatGPT's response
                 regex = regex = r"\d+"
                 match = re.search(regex, row[9].replace(",",""))
                 if match:
                     row[9] = match.group()
+                    # calculating difference between ChatGPT's response and correct answer
                     row[10] = abs(float(row[8])-float(row[9]))
                     writer.writerow(row[:])
         
