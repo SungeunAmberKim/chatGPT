@@ -19,9 +19,7 @@ def generate_input_file(size: int, answer_form, filename):
             mom_interest = random.randrange(1, 10, 1)
             moe_steal = random.randrange(0,100, 5)
             correct_answer = ((emily_invested*uni_steal)/100)*(1+(moe_steal/100))
-            file.write(f"{emily_invested}, {emily_interst_1}, {emily_interst_2},
-                       {uni_steal}, {mom_invested},{mom_interest},
-                       {moe_steal}, {answer_form},{correct_answer}\n")
+            file.write(f"{emily_invested}, {emily_interst_1}, {emily_interst_2},{uni_steal}, {mom_invested},{mom_interest},{moe_steal}, {answer_form},{correct_answer}\n")
             
 # generating input csv file; correct_answer is always 55   
 def generate_input_file_1(size: int, answer_form, filename):
@@ -35,9 +33,7 @@ def generate_input_file_1(size: int, answer_form, filename):
             mom_interest = random.randrange(1, 10, 1)
             moe_steal = 10
             correct_answer = 55
-            file.write(f"{emily_invested}, {emily_interst_1}, {emily_interst_2},
-                       {uni_steal},{mom_invested},{mom_interest},
-                       {moe_steal},{answer_form},{correct_answer}\n")
+            file.write(f"{emily_invested}, {emily_interst_1}, {emily_interst_2},{uni_steal},{mom_invested},{mom_interest},{moe_steal},{answer_form},{correct_answer}\n")
             
 # function to generate prompts from csv file
 def generate_prompts(infile):
@@ -53,7 +49,12 @@ def generate_prompts(infile):
             mom_interest = parts[5]
             moe_steal = parts[6]
             answer_form = parts[7]
-            prompt_each = f'''Emily invested ${emily_invested} in two different accounts and has a cat named Uni. 
+            prompt_each = f'''Question: Emily invested $50000 in two different accounts and has a cat named Uni. One account earns 2% annual interest, the other earns 6% annual interest, and her cat stole 1% of her total investment before she invested. And her mom invested $8040 in five accounts and has a cat named Moe. One account earns 2% annual interest, and Moe stole 10% more than the amount Uni stole. If the total interest earned after one year is $550, how much did Moe steal?
+            Answer: Moe stole $550 becasue Uni stole 1% of $50000, which is $500, and 10% more than $500 is $550.
+            Question: Emily invested $2000 in two different accounts and has a cat named Uni. One account earns 1% annual interest, the other earns 8% annual interest, and her cat stole 2% of her total investment before she invested. And her mom invested $1230 in five accounts and has a cat named Moe. One account earns 5% annual interest, and Moe stole 10% more than the amount Uni stole. If the total interest earned after one year is $234, how much did Moe steal?
+            Answer: Moe stole $22 becasue Uni stole 1% of $2000, which is $20, and 10% more than $20 is $22. 
+        
+            Emily invested ${emily_invested} in two different accounts and has a cat named Uni. 
                 One account earns {emily_interst_1}% annual interest, the other earns {emily_interst_2}% annual interest, 
                 and her cat stole {uni_steal}% of her total investment before she invested. 
                 And her mom invested ${mom_invested} in five accounts and has a cat named Moe. 
@@ -155,8 +156,8 @@ def test_1(input_csv, output_csv, clean_csv, iterations, mode, temperature, top_
 if __name__ == "__main__":
     # input file; output file; data cleaned file; iterations; mode; temperature, top_p, frequency_penalty, presence_penalty
     
-    #test("input.csv","output_2.csv","clean_2.csv",100,"one word", 0.6, 1, 0, 0)
-    data_cleaning("output_2.csv","clean_2.csv")
-    
-    
+    test("input.csv","output_3.csv","clean_3.csv",100,"one word", 0.6, 1, 0, 0)
+    test("input.csv","output_3.csv","clean_3.csv",100,"one integer", 0.6, 1, 0, 0)
+    test("input.csv","output_3.csv","clean_3.csv",100,"one float", 0.6, 1, 0, 0)
+    test("input.csv","output_3.csv","clean_3.csv",100,"one floating point value", 0.6, 1, 0, 0)
     

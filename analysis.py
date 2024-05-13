@@ -4,7 +4,7 @@ def percent_correct_mode(mode):
     size = 0
     correct = 0
     difference = []
-    with open('clean_1.csv', 'r') as file:
+    with open('clean_3.csv', 'r') as file:
         reader = csv.reader(file)
         for row in reader:
             if row[7] == mode:
@@ -24,7 +24,7 @@ def percent_correct_temperature(temp):
     size = 0
     correct = 0
     difference = []
-    with open('clean_1.csv', 'r') as file:
+    with open('clean_3.csv', 'r') as file:
         reader = csv.reader(file)
         for row in reader:
             if float(row[11]) == temp:
@@ -44,7 +44,7 @@ def percent_correct_top_p(top_p):
     size = 0
     correct = 0
     difference = []
-    with open('clean_1.csv', 'r') as file:
+    with open('clean_3.csv', 'r') as file:
         reader = csv.reader(file)
         for row in reader:
             if float(row[12]) == top_p:
@@ -69,12 +69,7 @@ percent_correct_mode("one integer")
 
 percent_correct_mode("one float")
 
-percent_correct_mode("one floaing point value")
-percent_correct_temperature(0)
-percent_correct_temperature(0.6)
-percent_correct_temperature(1)
-percent_correct_top_p(0)
-percent_correct_top_p(1)
+percent_correct_mode("one floating point value")
 
 
         
